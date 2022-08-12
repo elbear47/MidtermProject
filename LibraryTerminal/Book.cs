@@ -11,7 +11,7 @@ namespace LibraryTerminal
         public DateTime DueDate { get; set; }
 
         
-        public Book(string title, string author, bool isCheckedOut)
+        public Book(string title, string author, bool isCheckedOut, DateTime dueDate)
 		{
             Title = title;
             Author = author;
