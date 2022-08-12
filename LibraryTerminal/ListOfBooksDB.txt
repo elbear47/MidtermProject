@@ -1,12 +1,12 @@
-﻿“The Great Gatbsy”, “F.Scott Fitzgerald”, false, 08/19/2022
-“Pride and Prejudice”, “Jane Austen”, false, 08/24/2022
-“To Kill a Mockingbird”, “Harper Lee”, false, 09/01/2022
-“Brave new world”, “Aldous Huxley”, false, 09/04/2022
-“Moby Dick”, “Herman Melville”, false, 09/05/2022
-“Frankstein”,”Mary Shelley”, false, 09/16/2022
-“Nineteen Eighty-Four”, ”George Orwell”, false, 09/20/2022
-“The Grapes of Wrath”, “John Steinbeck”, false, 09/22/2022
-“Dracula”, “Bram Stoker”, false, 10/02/2022
-“The Iliad”,”Homer”, false, 10/03/2022
-“Les Miserables”, “Victor Hugo”, false, 10/07/2022
-“Ulysses”, ”James Joyce”, false, 10/10/2022
+﻿The Great Gatbsy,F.Scott Fitzgerald, false, 08/19/2022
+Pride and Prejudice,Jane Austen, false, 08/24/2022
+To Kill a Mockingbird, Harper Lee, false, 09/01/2022
+Brave new world,Aldous Huxley,false, 09/04/2022
+Moby Dick,Herman Melville,false, 09/05/2022
+Frankstein,Mary Shelley,false, 09/16/2022
+Nineteen Eighty-Four,George Orwell,false, 09/20/2022
+The Grapes of Wrath,John Steinbeck, false, 09/22/2022
+Dracula,Bram Stoker, false, 10/02/2022
+The Iliad,Homer, false, 10/03/2022
+Les Miserables,Victor Hugo, false, 10/07/2022
+Ulysses,James Joyce,false, 10/10/2022

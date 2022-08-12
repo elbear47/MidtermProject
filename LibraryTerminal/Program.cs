@@ -2,6 +2,14 @@
 
 using LibraryTerminal;
 
-Book b = new Book("my title", "troy wilson", false);
+//Book b = new Book("my title", "troy wilson", false);
 
-Console.WriteLine(b.DueDate);
+
+
+//Console.WriteLine(b.DueDate);
+
+BookList bookList = new();
+
+bookList.LoadBookList();
+
+bookList.PrintBookList();
