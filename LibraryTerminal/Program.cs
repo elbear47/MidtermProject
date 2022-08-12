@@ -1,3 +1,7 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿
 
+using LibraryTerminal;
+
+Book b = new Book("my title", "troy wilson", false);
+
+Console.WriteLine(b.DueDate);
