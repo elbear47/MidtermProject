@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
 using LibraryTerminal;
@@ -13,6 +15,8 @@ namespace LibraryTerminal
         public List<Book> bookList = new List<Book>();
 
         string filePath = FindApplicationFile("ListOfBooksDB.txt").ToString();
+        
+        
         public void LoadBookList()
         {
             StreamReader sr = new(filePath);
@@ -29,6 +33,18 @@ namespace LibraryTerminal
             sr.Close();
         }
 
+
+        public void SaveBookList()
+        {
+            List<string> outBookList = new();
+            bookList = bookList.OrderBy(x => x.Author).ToList();
+            foreach(Book book in bookList)
+            {
+                outBookList.Add(item: $"{book.Title},{book.Author},{book.IsCheckedOut},{book.DueDate}");
+
+            }
+            File.WriteAllLines(filePath, outBookList);
+        }
 
         public void PrintBookList()
         {
@@ -55,6 +71,21 @@ namespace LibraryTerminal
             string formattedTitleName = title.ToLower();
 
             bookList.Where(x => x.Title.ToLower().Contains(formattedTitleName)).ToList().ForEach(b => Console.WriteLine(b.Title));
+        }
+
+        public void CheckOutBook()
+        {
+            Console.WriteLine("Enter the title of the book you want to check out: ");
+            string title = Console.ReadLine();
+            bookList.Where(x => x.Title.Contains(title, StringComparison.OrdinalIgnoreCase)).ToList().ForEach(b => b.IsCheckedOut = true);
+            SaveBookList();
+        }
+        public void CheckInBook()
+        {
+            Console.WriteLine("Enter the title of the book you want to check in: ");
+            string title = Console.ReadLine();
+            bookList.Where(x => x.Title.Contains(title, StringComparison.OrdinalIgnoreCase)).ToList().ForEach(b => b.IsCheckedOut = false);
+            SaveBookList();
         }
 
 
