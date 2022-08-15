@@ -43,15 +43,14 @@ namespace LibraryTerminal
             }
         }
 
-
-
-
-
-
-
-
-
-
+        public void SearchBookByAuthor(string author)
+        {
+            string formattedAuthorName = author.ToLower();
+            
+            bookList.Where(x => x.Author.ToLower().Contains(formattedAuthorName)).ToList().ForEach(b => Console.WriteLine(b.Title));
+            //Console.WriteLine(bookList.Where(x => x.Author == author));
+        }
+ 
 
         public static FileInfo FindApplicationFile(string fileName)
         {
