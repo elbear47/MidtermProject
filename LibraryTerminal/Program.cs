@@ -15,4 +15,6 @@ bookList.LoadBookList();
 //bookList.PrintBookList();
 
 
-bookList.SearchBookByAuthor("jAne");
+//bookList.SearchBookByAuthor("jAne");
+
+bookList.SearchBookByTitle("gatsby");
