@@ -12,9 +12,11 @@ BookList bookList = new();
 
 bookList.LoadBookList();
 
-//bookList.PrintBookList();
+bookList.PrintBookList();
 
 
 //bookList.SearchBookByAuthor("jAne");
 
-bookList.SearchBookByTitle("gatsby");
+//bookList.SearchBookByTitle("gatsby");
+
+bookList.CheckOutBook();
