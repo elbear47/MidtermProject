@@ -189,6 +189,21 @@ namespace LibraryTerminal
             SaveBookList();
         }
 
+        public void AddBook()
+        {
+            Console.WriteLine("Enter book title: ");
+            string t = Console.ReadLine();
+            Console.WriteLine("Enter book author: ");
+            string a = Console.ReadLine();
+
+            DateOnly currentDate = DateOnly.FromDateTime(DateTime.Now);
+
+
+            Book newBook = new Book(t, a, false, currentDate);
+
+            bookList.Add(newBook);
+        }
+
 
         /// <summary>
         /// Finds the file path of the file
@@ -223,12 +238,13 @@ namespace LibraryTerminal
             Console.WriteLine("3. Search book by title");
             Console.WriteLine("4. Check out a book");
             Console.WriteLine("5. Check in a book");
-            Console.WriteLine("6. Exit program");
+            Console.WriteLine("6. Add a book");
+            Console.WriteLine("7. Exit program");
             Console.Write("Please enter your numbered choice from the selection above: ");
             string userInput = Console.ReadLine();
             int selection = 0;
 
-            if(int.TryParse(userInput, out selection) && selection > 0 && selection < 7)
+            if(int.TryParse(userInput, out selection) && selection > 0 && selection < 8)
             {
                 Console.Clear();
                 if(selection == 1)
@@ -255,7 +271,11 @@ namespace LibraryTerminal
                     PrintBookList();
                     CheckInBook();
                 }
-                else if(selection == 6)
+                else if (selection == 6)
+                {
+                    AddBook();
+                }
+                else if(selection == 7)
                 {
                     Console.WriteLine("Goodbye!");
                     Environment.Exit(0);
