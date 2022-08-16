@@ -34,7 +34,7 @@ namespace LibraryTerminal
         }
 
 
-        public void SaveBookList()
+        private void SaveBookList()
         {
             List<string> outBookList = new();
             bookList = bookList.OrderBy(x => x.Author).ToList();
@@ -52,27 +52,47 @@ namespace LibraryTerminal
         {
             foreach(var b in bookList)
             {
-                Console.WriteLine(String.Format("{0,-6} {1}", "Title:", b.Title));
-                //Console.WriteLine(String.Format($"Title: {b.Title,15} Author:  {b.Author} Status: {b.IsCheckedOut} Due by: {b.DueDate}"));
-                Console.WriteLine(String.Format("{0,-5} {1}", "Author:", b.Author));
-                Console.WriteLine(String.Format("{0,-5} {1}", "Status:", b.IsCheckedOut));
-                Console.WriteLine(String.Format("{0,-5} {1}", "Due by:", b.DueDate));
-                Console.WriteLine();
+                FormattedBookList(b);
             }
+        }
+
+        public void FormattedBookList(Book b)
+        {
+            Console.WriteLine(String.Format("{0,-6} {1}", "Title:", b.Title));
+            Console.WriteLine(String.Format("{0,-5} {1}", "Author:", b.Author));
+            Console.WriteLine(String.Format("{0,-5} {1}", "Status:", b.IsCheckedOut));
+            Console.WriteLine(String.Format("{0,-5} {1}", "Due by:", b.DueDate));
+            Console.WriteLine();
         }
 
         public void SearchBookByAuthor(string author)
         {
             string formattedAuthorName = author.ToLower();
-            
-            bookList.Where(x => x.Author.ToLower().Contains(formattedAuthorName)).ToList().ForEach(b => Console.WriteLine(b.Title));
+
+            //bookList.Where(x => x.Author.ToLower().Contains(formattedAuthorName)).ToList().ForEach(b => Console.WriteLine(b.Title));
+            List<Book> bl = bookList.Where(x => x.Author.ToLower().Contains(formattedAuthorName)).ToList(); 
+            if (bl.Count > 0)
+            {
+                foreach (Book b in bl)
+                {
+                    FormattedBookList(b);
+                }
+            }
+            else Console.WriteLine("Search produces no results.");
         }
 
         public void SearchBookByTitle(string title)
         {
             string formattedTitleName = title.ToLower();
-
-            bookList.Where(x => x.Title.ToLower().Contains(formattedTitleName)).ToList().ForEach(b => Console.WriteLine(b.Title));
+            List<Book> bl = bookList.Where(x => x.Title.ToLower().Contains(formattedTitleName)).ToList();
+            if (bl.Count > 0)
+            {
+                foreach (Book b in bl)
+                {
+                    FormattedBookList(b);
+                }
+            }
+            else Console.WriteLine("Search produces no results.");
         }
 
         public void CheckOutBook()
@@ -155,6 +175,52 @@ namespace LibraryTerminal
                 file = new FileInfo(Path.Combine(parentDir.FullName, file.Name));
             }
             return file;
+        }
+
+        public void BookMenu()
+        {
+            Console.Clear();
+            Console.WriteLine("Hello, welcome to our library!:");
+            Console.WriteLine("1. Browse the list of books");
+            Console.WriteLine("2. Search book by author");
+            Console.WriteLine("3. Search book by title");
+            Console.WriteLine("4. Check out a book");
+            Console.WriteLine("5. Check in a book");
+            Console.WriteLine("6. Exit program"); 
+            Console.Write("Please enter your numbered choice from the selection above: ");
+            int userInput = int.Parse(Console.ReadLine());
+            Console.Clear();
+            if (userInput == 1)
+            {
+                PrintBookList();
+            }
+            else if (userInput == 2)
+            {
+                Console.WriteLine("Please enter the name of the author:");               
+                SearchBookByAuthor(Console.ReadLine());
+            }
+            else if (userInput == 3)
+            {
+                Console.WriteLine("Please enter the name of the book:");
+                SearchBookByTitle(Console.ReadLine());
+            }
+            else if (userInput == 4)
+            {
+                PrintBookList();
+                CheckOutBook();
+            }
+            else if (userInput == 5)
+            {
+                PrintBookList();
+                CheckInBook();
+            }
+            else if (userInput == 6)
+            {
+                Console.WriteLine("Goodbye!");
+                Environment.Exit(0);
+            }
+            Console.WriteLine("Press any key to continue");
+            Console.ReadKey();
         }
     }
 }

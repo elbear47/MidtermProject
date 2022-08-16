@@ -9,15 +9,8 @@ using LibraryTerminal;
 //Console.WriteLine(b.DueDate);
 
 BookList bookList = new();
-
 bookList.LoadBookList();
-
-bookList.PrintBookList();
-
-
-//bookList.SearchBookByAuthor("jAne");
-
-//bookList.SearchBookByTitle("gatsby");
-
-bookList.CheckOutBook();
-bookList.CheckInBook();
+do
+{
+    bookList.BookMenu();
+} while (true);

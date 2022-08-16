@@ -8,5 +8,5 @@ The Iliad,Homer,True,10/3/2022
 Ulysses,James Joyce,True,10/10/2022
 Pride and Prejudice,Jane Austen,False,8/24/2022
 The Grapes of Wrath,John Steinbeck,False,8/29/2022
-Frankstein,Mary Shelley,False,9/16/2022
+Frankenstein,Mary Shelley,False,8/29/2022
 Les Miserables,Victor Hugo,True,10/7/2022
