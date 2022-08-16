@@ -41,9 +41,11 @@ namespace LibraryTerminal
             foreach(Book book in bookList)
             {
                 outBookList.Add(item: $"{book.Title},{book.Author},{book.IsCheckedOut},{book.DueDate}");
+                
 
             }
             File.WriteAllLines(filePath, outBookList);
+            
         }
 
         public void PrintBookList()
@@ -77,14 +79,64 @@ namespace LibraryTerminal
         {
             Console.WriteLine("Enter the title of the book you want to check out: ");
             string title = Console.ReadLine();
-            bookList.Where(x => x.Title.Contains(title, StringComparison.OrdinalIgnoreCase)).ToList().ForEach(b => b.IsCheckedOut = true);
+            List<Book> relevantBooks = new List<Book>();
+            relevantBooks = bookList.Where(x => x.Title.Contains(title, StringComparison.OrdinalIgnoreCase)).ToList();
+            DateOnly returnDate = DateOnly.FromDateTime(DateTime.Now);
+            
+            // check if any books returned
+            if (relevantBooks.Count() > 1)
+            {
+                Console.WriteLine("Search produces too many results please be more specific.");
+            }
+            else if (relevantBooks.Count() == 1)
+            {
+                foreach (Book b in relevantBooks)
+                {
+                    if (b.IsCheckedOut == false)
+                    {
+                        relevantBooks.ForEach(b => {
+                            b.IsCheckedOut = true; // change checked out to true
+                            b.DueDate = returnDate.AddDays(14);
+                            Console.WriteLine(b.Title + " is available and you just checked it out and is due: "+ b.DueDate);
+
+                        }); 
+                     
+                    }
+                    else Console.WriteLine("Book has already been checked out . Sorry :) ");
+                }
+                
+
+            }
+            else Console.WriteLine("Search produced no results.");
             SaveBookList();
         }
         public void CheckInBook()
         {
             Console.WriteLine("Enter the title of the book you want to check in: ");
             string title = Console.ReadLine();
-            bookList.Where(x => x.Title.Contains(title, StringComparison.OrdinalIgnoreCase)).ToList().ForEach(b => b.IsCheckedOut = false);
+            List<Book> relevantBooks = new List<Book>();
+            relevantBooks = bookList.Where(x => x.Title.Contains(title, StringComparison.OrdinalIgnoreCase)).ToList();
+
+            // check if any books returned
+            if (relevantBooks.Count() > 1)
+            {
+                Console.WriteLine("Search produces too many results please be more specific.");
+            }
+            else if (relevantBooks.Count() == 1)
+            {
+                foreach (Book b in relevantBooks)
+                {
+                    if (b.IsCheckedOut == true)
+                    {
+                        relevantBooks.ForEach(b => b.IsCheckedOut = false);
+                        relevantBooks.ForEach(b => Console.WriteLine("Thank you for returning:  "+ b.Title));
+                    }
+                    else Console.WriteLine("Book has already been checked in.");
+                }
+
+
+            }
+            else Console.WriteLine("Search produced no results.");
             SaveBookList();
         }
 

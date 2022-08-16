@@ -20,3 +20,4 @@ bookList.PrintBookList();
 //bookList.SearchBookByTitle("gatsby");
 
 bookList.CheckOutBook();
+bookList.CheckInBook();
