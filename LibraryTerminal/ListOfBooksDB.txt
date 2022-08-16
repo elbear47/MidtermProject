@@ -1,12 +1,12 @@
-Brave new world,Aldous Huxley,False,9/4/2022
-Dracula,Bram Stoker,False,10/2/2022
-The Great Gatsby,F.Scott Fitzgerald,False,8/19/2022
-Nineteen Eighty-Four,George Orwell,False,9/20/2022
-To Kill a Mockingbird,Harper Lee,False,9/1/2022
-Moby Dick,Herman Melville,False,9/5/2022
-The Iliad,Homer,True,10/3/2022
-Ulysses,James Joyce,True,10/10/2022
-Pride and Prejudice,Jane Austen,False,8/24/2022
-The Grapes of Wrath,John Steinbeck,False,8/29/2022
-Frankenstein,Mary Shelley,False,8/29/2022
-Les Miserables,Victor Hugo,True,10/7/2022
+Brave new world,Aldous Huxley,False,2022-09-04
+Dracula,Bram Stoker,False,2022-10-02
+The Great Gatsby,F.Scott Fitzgerald,False,2022-08-19
+Nineteen Eighty-Four,George Orwell,False,2022-09-20
+To Kill a Mockingbird,Harper Lee,False,2022-09-01
+Moby Dick,Herman Melville,False,2022-09-05
+The Iliad,Homer,True,2022-10-03
+Ulysses,James Joyce,True,2022-10-10
+Pride and Prejudice,Jane Austen,False,2022-08-24
+The Grapes of Wrath,John Steinbeck,False,2022-08-29
+Frankenstein,Mary Shelley,False,2022-08-29
+Les Miserables,Victor Hugo,False,2022-10-07
