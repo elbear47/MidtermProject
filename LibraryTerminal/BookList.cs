@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.ConstrainedExecution;
-using System.Text;
-using System.Threading.Tasks;
-using LibraryTerminal;
+﻿using System.Reflection;
 
 namespace LibraryTerminal
 {
@@ -22,10 +14,10 @@ namespace LibraryTerminal
         public void LoadBookList()
         {
             StreamReader sr = new(filePath);
-            while (true)
+            while(true)
             {
                 string line = sr.ReadLine();
-                if (line == null)
+                if(line == null)
                 {
                     break;
                 }
@@ -42,14 +34,17 @@ namespace LibraryTerminal
         {
             List<string> outBookList = new();
             bookList = bookList.OrderBy(x => x.Author).ToList();
-            foreach (Book book in bookList)
+            foreach(Book book in bookList)
             {
                 outBookList.Add(item: $"{book.Title},{book.Author},{book.IsCheckedOut},{book.DueDate}");
-
-
             }
             File.WriteAllLines(filePath, outBookList);
+        }
 
+        private void BurnItDown()
+        {
+            bookList.Clear();
+            SaveBookList();
         }
 
         /// <summary>
@@ -57,7 +52,7 @@ namespace LibraryTerminal
         /// </summary>
         public void PrintBookList()
         {
-            foreach (var b in bookList)
+            foreach(var b in bookList)
             {
                 FormattedBookList(b);
             }
@@ -68,7 +63,7 @@ namespace LibraryTerminal
         {
             Console.WriteLine(String.Format("{0,-6} {1}", "Title:", b.Title));
             Console.WriteLine(String.Format("{0,-5} {1}", "Author:", b.Author));
-            if (b.IsCheckedOut)
+            if(b.IsCheckedOut)
             {
                 Console.WriteLine(String.Format("Status: Book is checked out"));
             }
@@ -90,9 +85,9 @@ namespace LibraryTerminal
 
             //bookList.Where(x => x.Author.ToLower().Contains(formattedAuthorName)).ToList().ForEach(b => Console.WriteLine(b.Title));
             List<Book> bl = bookList.Where(x => x.Author.ToLower().Contains(formattedAuthorName)).ToList();
-            if (bl.Count > 0)
+            if(bl.Count > 0)
             {
-                foreach (Book b in bl)
+                foreach(Book b in bl)
                 {
                     FormattedBookList(b);
                 }
@@ -108,9 +103,9 @@ namespace LibraryTerminal
         {
             string formattedTitleName = title.ToLower();
             List<Book> bl = bookList.Where(x => x.Title.ToLower().Contains(formattedTitleName)).ToList();
-            if (bl.Count > 0)
+            if(bl.Count > 0)
             {
-                foreach (Book b in bl)
+                foreach(Book b in bl)
                 {
                     FormattedBookList(b);
                 }
@@ -130,39 +125,39 @@ namespace LibraryTerminal
             DateOnly returnDate = DateOnly.FromDateTime(DateTime.Now);
 
             // check if any books returned
-            if (relevantBooks.Count() > 1)
+            if(relevantBooks.Count() > 1)
             {
                 Console.WriteLine("Search produces too many results please be more specific.");
             }
-            else if (relevantBooks.Count() == 1)
+            else if(relevantBooks.Count() == 1)
             {
                 Book b1 = relevantBooks[0];
-                if (!b1.IsCheckedOut)
+                if(!b1.IsCheckedOut)
                 {
-                    Console.WriteLine("Are you sure you would like to checkout "+ b1.Title +" --> (y/n)?");// prompt if they are sure
-                    if (Console.ReadKey().Key == ConsoleKey.Y) //confirm if they would like to check out
+                    do
                     {
-                        b1.IsCheckedOut = true; // change checked out to true
-                        b1.DueDate = returnDate.AddDays(14);
-                        Console.WriteLine(b1.Title + " is available and you just checked it out and is due: " + b1.DueDate);
-                        SaveBookList(); // save changes to file
-
-                    }
-                    else if (Console.ReadKey().Key == ConsoleKey.N)
-                    {
-                        Console.WriteLine(""); // do nothing
-                    }
-                    else
-                    {
-                        Console.WriteLine("Please type y or n");
-                    }
-                    
-                    
+                        Console.Clear();
+                        Console.Write("Are you sure you would like to checkout " + b1.Title + " --> (y/n)? ");// prompt if they are sure
+                        ConsoleKey userInput = Console.ReadKey().Key;
+                        if(userInput == ConsoleKey.Y) //confirm if they would like to check out
+                        {
+                            b1.IsCheckedOut = true; // change checked out to true
+                            b1.DueDate = returnDate.AddDays(14);
+                            Console.WriteLine(b1.Title + " is available and you just checked it out and is due: " + b1.DueDate);
+                            SaveBookList(); // save changes to file
+                            return;
+                        }
+                        else if(userInput == ConsoleKey.N)
+                        {
+                            Console.WriteLine();
+                            Console.WriteLine("I'll put it back for you.");
+                            return;
+                        }
+                    } while(true);
                 }
                 else Console.WriteLine("Book has already been checked out . Sorry :) ");
             }
             else Console.WriteLine("Search produced no results.");
-            
         }
 
         /// <summary>
@@ -176,24 +171,22 @@ namespace LibraryTerminal
             relevantBooks = bookList.Where(x => x.Title.Contains(title, StringComparison.OrdinalIgnoreCase)).ToList();
 
             // check if any books returned
-            if (relevantBooks.Count() > 1)
+            if(relevantBooks.Count() > 1)
             {
                 Console.WriteLine("Search produces too many results please be more specific.");
             }
-            else if (relevantBooks.Count() == 1)
+            else if(relevantBooks.Count() == 1)
             {
-                foreach (Book b in relevantBooks)
+                Book book = relevantBooks[0];
+                if(book.IsCheckedOut == true)
                 {
-                    if (b.IsCheckedOut == true)
-                    {
-                        relevantBooks.ForEach(b => b.IsCheckedOut = false);
-                        relevantBooks.ForEach(b => Console.WriteLine("Thank you for returning:  " + b.Title));
-                    }
-                    else Console.WriteLine("Book has already been checked in.");
+                    book.IsCheckedOut = false;
+                    Console.WriteLine("Thank you for returning:  " + book.Title);
+                    SaveBookList();
                 }
+                else Console.WriteLine("Book has already been checked in.");
             }
             else Console.WriteLine("Search produced no results.");
-            SaveBookList();
         }
 
         public void AddBook()
@@ -204,7 +197,6 @@ namespace LibraryTerminal
             string a = Console.ReadLine();
 
             DateOnly currentDate = DateOnly.FromDateTime(DateTime.Now);
-
 
             Book newBook = new Book(t, a, false, currentDate);
 
@@ -222,9 +214,9 @@ namespace LibraryTerminal
         {
             string startPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), fileName);
             FileInfo file = new FileInfo(startPath);
-            while (!file.Exists)
+            while(!file.Exists)
             {
-                if (file.Directory.Parent == null)
+                if(file.Directory.Parent == null)
                 {
                     return null;
                 }
@@ -252,38 +244,38 @@ namespace LibraryTerminal
             string userInput = Console.ReadLine();
             int selection = 0;
 
-            if (int.TryParse(userInput, out selection) && selection > 0 && selection < 8)
+            if(int.TryParse(userInput, out selection) && selection > 0 && selection < 8)
             {
                 Console.Clear();
-                if (selection == 1)
+                if(selection == 1)
                 {
                     PrintBookList();
                 }
-                else if (selection == 2)
+                else if(selection == 2)
                 {
                     Console.WriteLine("Please enter the name of the author:");
                     SearchBookByAuthor(Console.ReadLine());
                 }
-                else if (selection == 3)
+                else if(selection == 3)
                 {
                     Console.WriteLine("Please enter the name of the book:");
                     SearchBookByTitle(Console.ReadLine());
                 }
-                else if (selection == 4)
+                else if(selection == 4)
                 {
                     PrintBookList();
                     CheckOutBook();
                 }
-                else if (selection == 5)
+                else if(selection == 5)
                 {
                     PrintBookList();
                     CheckInBook();
                 }
-                else if (selection == 6)
+                else if(selection == 6)
                 {
                     AddBook();
                 }
-                else if (selection == 7)
+                else if(selection == 7)
                 {
                     Console.WriteLine("Goodbye!");
                     Environment.Exit(0);

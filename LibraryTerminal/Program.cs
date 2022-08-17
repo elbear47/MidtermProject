@@ -1,12 +1,4 @@
-﻿
-
-using LibraryTerminal;
-
-//Book b = new Book("my title", "troy wilson", false);
-
-
-
-//Console.WriteLine(b.DueDate);
+﻿using LibraryTerminal;
 
 BookList bookList = new();
 bookList.LoadBookList();
