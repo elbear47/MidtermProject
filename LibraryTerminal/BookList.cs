@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Media;
 
 namespace LibraryTerminal
 {
@@ -7,6 +8,7 @@ namespace LibraryTerminal
         public List<Book> bookList = new List<Book>();
 
         string filePath = FindApplicationFile("ListOfBooksDB.txt").ToString();
+        string filePathBurn = FindApplicationFile("Flame.txt").ToString();
 
         /// <summary>
         /// Loads book list form file
@@ -46,18 +48,27 @@ namespace LibraryTerminal
             bookList.Clear();
             for (int i = 0; i < 15; i++)
             {
+                //var myPlayer = new System.Media.SoundPlayer();
+                //player.Play();
                 Console.BackgroundColor = ConsoleColor.DarkYellow;
                 Console.Clear();
-                Console.WriteLine(@"    ,.   (   .      )        .      ""
-   (""     )  )'     ,'        )  . (`     '`
- .; )  ' (( ("" )    ;(,     ((  (  ;)  ""  )""
- _""., ,._'_.,)_(..,( . )_  _' )_') (. _..( '..");
+                Console.OutputEncoding = System.Text.Encoding.Unicode;
+                Console.ForegroundColor = ConsoleColor.Black;
+                Console.WriteLine(@"             )     )  ________ 
+ (  (     ( /(  ( /( |   /   / 
+ )\))(   ')\()) )\())|  /|  /  
+((_)()\ )((_)\ ((_)\ | / | /   
+_(())\_)()_((_)_ ((_)|/  |/    
+\ \((_)/ / || \ \ / (   (      
+ \ \/\/ /| __ |\ V /)\  )\     
+  \_/\_/ |_||_| |_|((_)((_)  ");       
                 Thread.Sleep(50);
                 Console.BackgroundColor = ConsoleColor.DarkRed;
                 Thread.Sleep(50);
                 Console.Clear();
             }
-            Console.BackgroundColor= ConsoleColor.Black;
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.White;
             Console.Clear();
             SaveBookList();
         }
@@ -74,19 +85,20 @@ namespace LibraryTerminal
         }
 
 
-        public void FormattedBookList(Book b)
+        private void FormattedBookList(Book b)
         {
+            Console.WriteLine("Index #: " + (bookList.IndexOf(b)+1));
             Console.WriteLine(String.Format("{0,-6} {1}", "Title:", b.Title));
             Console.WriteLine(String.Format("{0,-5} {1}", "Author:", b.Author));
             if(b.IsCheckedOut)
             {
                 Console.WriteLine(String.Format("Status: Book is checked out"));
+                Console.WriteLine(String.Format("{0,-5} {1}", "Due by:", b.DueDate));
             }
             else
             {
                 Console.WriteLine(String.Format("Status: Book is available"));
             }
-            Console.WriteLine(String.Format("{0,-5} {1}", "Due by:", b.DueDate));
             Console.WriteLine();
         }
 
@@ -114,18 +126,26 @@ namespace LibraryTerminal
         /// Search the books by title
         /// </summary>
         /// <param name="title"></param>
-        public void SearchBookByTitle(string title)
+        /// 
+        public void SearchBookByTitleorIndex(string title)
         {
             string formattedTitleName = title.ToLower();
-            List<Book> bl = bookList.Where(x => x.Title.ToLower().Contains(formattedTitleName)).ToList();
-            if(bl.Count > 0)
+            if (int.TryParse(title, out int indexNo))
             {
-                foreach(Book b in bl)
-                {
-                    FormattedBookList(b);
-                }
+                FormattedBookList(bookList.ElementAt(--indexNo));
             }
-            else Console.WriteLine("Search produces no results.");
+            else
+            {
+                List<Book> bl = bookList.Where(x => x.Title.ToLower().Contains(formattedTitleName)).ToList();
+                if (bl.Count > 0)
+                {
+                    foreach (Book b in bl)
+                    {
+                        FormattedBookList(b);
+                    }
+                }
+                else Console.WriteLine("Search produces no results.");
+            }
         }
 
         /// <summary>
@@ -291,7 +311,7 @@ namespace LibraryTerminal
             Console.WriteLine("Hello, welcome to our library!:");
             Console.WriteLine("1. Browse the list of books");
             Console.WriteLine("2. Search book by author");
-            Console.WriteLine("3. Search book by title");
+            Console.WriteLine("3. Search book by title or index number");
             Console.WriteLine("4. Check out a book");
             Console.WriteLine("5. Check in a book");
             Console.WriteLine("6. Add a book");
@@ -315,7 +335,7 @@ namespace LibraryTerminal
                 else if(selection == 3)
                 {
                     Console.WriteLine("Please enter the name of the book:");
-                    SearchBookByTitle(Console.ReadLine());
+                    SearchBookByTitleorIndex(Console.ReadLine());
                 }
                 else if(selection == 4)
                 {
