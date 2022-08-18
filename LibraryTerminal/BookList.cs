@@ -44,6 +44,13 @@ namespace LibraryTerminal
         private void BurnItDown()
         {
             bookList.Clear();
+            for (int i = 0; i < 15; i++)
+            {
+                Console.BackgroundColor = ConsoleColor.DarkYellow;
+                Thread.Sleep(250);
+                Console.BackgroundColor = ConsoleColor.Black;
+                Thread.Sleep(250);
+            }
             SaveBookList();
         }
 
