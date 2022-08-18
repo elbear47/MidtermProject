@@ -48,11 +48,17 @@ namespace LibraryTerminal
             {
                 Console.BackgroundColor = ConsoleColor.DarkYellow;
                 Console.Clear();
-                Thread.Sleep(250);
-                Console.BackgroundColor = ConsoleColor.Black;
-                Thread.Sleep(250);
+                Console.WriteLine(@"    ,.   (   .      )        .      ""
+   (""     )  )'     ,'        )  . (`     '`
+ .; )  ' (( ("" )    ;(,     ((  (  ;)  ""  )""
+ _""., ,._'_.,)_(..,( . )_  _' )_') (. _..( '..");
+                Thread.Sleep(50);
+                Console.BackgroundColor = ConsoleColor.DarkRed;
+                Thread.Sleep(50);
                 Console.Clear();
             }
+            Console.BackgroundColor= ConsoleColor.Black;
+            Console.Clear();
             SaveBookList();
         }
 
