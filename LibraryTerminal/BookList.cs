@@ -47,9 +47,11 @@ namespace LibraryTerminal
             for (int i = 0; i < 15; i++)
             {
                 Console.BackgroundColor = ConsoleColor.DarkYellow;
+                Console.Clear();
                 Thread.Sleep(250);
                 Console.BackgroundColor = ConsoleColor.Black;
                 Thread.Sleep(250);
+                Console.Clear();
             }
             SaveBookList();
         }
