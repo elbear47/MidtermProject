@@ -8,8 +8,6 @@ namespace LibraryTerminal
         public List<Book> bookList = new List<Book>();
 
         string filePath = FindApplicationFile("ListOfBooksDB.txt").ToString();
-        string filePathBurn = FindApplicationFile("Flame.txt").ToString();
-
         /// <summary>
         /// Loads book list form file
         /// </summary>
@@ -54,14 +52,14 @@ namespace LibraryTerminal
                 Console.Clear();
                 Console.OutputEncoding = System.Text.Encoding.Unicode;
                 Console.ForegroundColor = ConsoleColor.Black;
-                Console.WriteLine(@"             )     )  ________ 
- (  (     ( /(  ( /( |   /   / 
- )\))(   ')\()) )\())|  /|  /  
-((_)()\ )((_)\ ((_)\ | / | /   
-_(())\_)()_((_)_ ((_)|/  |/    
-\ \((_)/ / || \ \ / (   (      
- \ \/\/ /| __ |\ V /)\  )\     
-  \_/\_/ |_||_| |_|((_)((_)  ");       
+                Console.WriteLine(@"
+                                     (  (     ( /(  ( /( |   /   / 
+                                     )\))(   ')\()) )\())|  /|  /  
+                                    ((_)()\ )((_)\ ((_)\ | / | /   
+                                    _(())\_)()_((_)_ ((_)|/  |/    
+                                    \ \((_)/ / || \ \ / (   (      
+                                     \ \/\/ /| __ |\ V /)\  )\     
+                                      \_/\_/ |_||_| |_|((_)((_)  ");       
                 Thread.Sleep(50);
                 Console.BackgroundColor = ConsoleColor.DarkRed;
                 Thread.Sleep(50);
@@ -323,14 +321,14 @@ _(())\_)()_((_)_ ((_)|/  |/
         public void BookMenu()
         {
             Console.Clear();
-            Console.WriteLine("Hello, welcome to our library!:");
+            Console.WriteLine("Hello, welcome to our library! \n");
             Console.WriteLine("1. Browse the list of books");
             Console.WriteLine("2. Search book by author");
             Console.WriteLine("3. Search book by title or index number");
             Console.WriteLine("4. Check out a book");
             Console.WriteLine("5. Check in a book");
             Console.WriteLine("6. Add a book");
-            Console.WriteLine("7. Exit program");
+            Console.WriteLine("7. Exit program \n");
             Console.Write("Please enter your numbered choice from the selection above: ");
             string userInput = Console.ReadLine();
             int selection = 0;
@@ -381,6 +379,10 @@ _(())\_)()_((_)_ ((_)|/  |/
                     Console.WriteLine("Goodbye!");
                     Environment.Exit(0);
                 }
+            }
+            else if (userInput == "48BC")
+            {
+                BurnItDown();
             }
             else
             {
