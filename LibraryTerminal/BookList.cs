@@ -127,15 +127,9 @@ _(())\_)()_((_)_ ((_)|/  |/
         /// </summary>
         /// <param name="title"></param>
         /// 
-        public void SearchBookByTitleorIndex(string title)
+        public void SearchBookByTitle(string title)
         {
             string formattedTitleName = title.ToLower();
-            if (int.TryParse(title, out int indexNo))
-            {
-                FormattedBookList(bookList.ElementAt(--indexNo));
-            }
-            else
-            {
                 List<Book> bl = bookList.Where(x => x.Title.ToLower().Contains(formattedTitleName)).ToList();
                 if (bl.Count > 0)
                 {
@@ -145,7 +139,28 @@ _(())\_)()_((_)_ ((_)|/  |/
                     }
                 }
                 else Console.WriteLine("Search produces no results.");
-            }
+        }
+
+        /// <summary>
+        /// Search the books by index
+        /// </summary>
+        /// <param name="index"></param>
+        /// 
+        public void SearchBookByIndex()
+        {
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("Please enter the Index Number of the book:");
+                string index = Console.ReadLine();
+                if (int.TryParse(index, out int indexNo) && (indexNo < bookList.Count) && indexNo > 0)
+                {
+                    FormattedBookList(bookList.ElementAt(--indexNo));
+                    return;
+                }
+                Console.WriteLine("Search produces no results. Press any key to continue:");
+                Console.ReadKey();
+            } while (true);
         }
 
         /// <summary>
@@ -334,8 +349,18 @@ _(())\_)()_((_)_ ((_)|/  |/
                 }
                 else if(selection == 3)
                 {
-                    Console.WriteLine("Please enter the name of the book:");
-                    SearchBookByTitleorIndex(Console.ReadLine());
+                    Console.WriteLine("Would you like to search by: \n1. Title \n2. Index No." );
+                    ConsoleKey userInputTwo = Console.ReadKey().Key;
+                    Console.WriteLine();
+                    if (userInputTwo == ConsoleKey.D1 || userInputTwo == ConsoleKey.NumPad1) 
+                    {
+                        Console.WriteLine("Please enter the name of the book:");
+                        SearchBookByTitle(Console.ReadLine());
+                    }
+                    else if (userInputTwo == ConsoleKey.D2 || userInputTwo == ConsoleKey.NumPad2)
+                    {
+                        SearchBookByIndex();
+                    }
                 }
                 else if(selection == 4)
                 {
