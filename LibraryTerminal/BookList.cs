@@ -139,6 +139,7 @@ namespace LibraryTerminal
                         Console.Clear();
                         Console.Write("Are you sure you would like to checkout " + b1.Title + " --> (y/n)? ");// prompt if they are sure
                         ConsoleKey userInput = Console.ReadKey().Key;
+                        Console.WriteLine();
                         if(userInput == ConsoleKey.Y) //confirm if they would like to check out
                         {
                             b1.IsCheckedOut = true; // change checked out to true
@@ -169,20 +170,60 @@ namespace LibraryTerminal
             string title = Console.ReadLine();
             List<Book> relevantBooks = new List<Book>();
             relevantBooks = bookList.Where(x => x.Title.Contains(title, StringComparison.OrdinalIgnoreCase)).ToList();
-
             // check if any books returned
-            if(relevantBooks.Count() > 1)
+            if (relevantBooks.Count() > 1)
             {
                 Console.WriteLine("Search produces too many results please be more specific.");
             }
             else if(relevantBooks.Count() == 1)
             {
-                Book book = relevantBooks[0];
-                if(book.IsCheckedOut == true)
+                Book b1 = relevantBooks[0];
+                decimal lateFee = 0.50m;
+                DateTime dueDate = b1.DueDate.ToDateTime(TimeOnly.FromDateTime(DateTime.Now));
+                int timeSpan = (dueDate - DateTime.Now).Days; 
+                decimal totalFee = Math.Abs(timeSpan) * lateFee;
+            if (b1.IsCheckedOut == true)
                 {
-                    book.IsCheckedOut = false;
-                    Console.WriteLine("Thank you for returning:  " + book.Title);
-                    SaveBookList();
+                    do
+                    {
+                        Console.Clear();
+                        Console.WriteLine($"Are you sure you wish to check in {b1.Title}? (y/n):");
+                        ConsoleKey userInput = Console.ReadKey().Key;
+                        Console.WriteLine();
+                        if (userInput == ConsoleKey.Y) //confirm if they would like to check in
+                        {
+                            b1.IsCheckedOut = false; // change checked out to false
+                            if (b1.DueDate >= DateOnly.FromDateTime(DateTime.Now))
+                            {
+                                Console.WriteLine("Thank you for returning:  " + b1.Title);
+                            }
+                            else 
+                            {
+                                if (b1.Title == "How to Conquer Rome")
+                                {
+                                    BurnItDown();
+                                    Console.WriteLine("Are you happy now?");
+                                    Environment.Exit(0);
+                                }
+                                Console.WriteLine($"This is late! Your late fee will be {totalFee:c}.");
+                            }
+                            SaveBookList(); // save changes to file
+                            return;
+                        }
+                        else if (userInput == ConsoleKey.N)
+                        {
+                            if (b1.DueDate >= DateOnly.FromDateTime(DateTime.Now))
+                            {
+                                Console.WriteLine($"Ok, just make sure to return it before {b1.DueDate}");
+                            }
+                            else
+                            {
+                                Console.WriteLine($"This is late! Your current late fee is {totalFee:c}, and will increase by {lateFee:c} each day.");
+                            }
+                            Console.WriteLine();
+                            return;
+                        } 
+                    } while (true);
                 }
                 else Console.WriteLine("Book has already been checked in.");
             }
