@@ -8,6 +8,26 @@ namespace LibraryTerminal
         public List<Book> bookList = new List<Book>();
 
         string filePath = FindApplicationFile("ListOfBooksDB.txt").ToString();
+
+        private static BookList _bookList = new(); // singleton pattern
+
+        /// <summary>
+        /// Returns the singleton instance of the BookList class.
+        /// </summary>
+        /// <returns></returns>
+        public static BookList GetBookList()
+        {
+            return _bookList;
+        }
+
+        /// <summary>
+        /// Private Thing
+        /// </summary>
+        private BookList()
+        {
+            LoadBookList();
+        }
+        
         /// <summary>
         /// Loads book list form file
         /// </summary>
@@ -82,7 +102,10 @@ namespace LibraryTerminal
             }
         }
 
-
+        /// <summary>
+        /// Prints a formatted list of all books
+        /// </summary>
+        /// <param name="b"></param>
         private void FormattedBookList(Book b)
         {
             Console.WriteLine("Index #: " + (bookList.IndexOf(b)+1));
@@ -177,7 +200,7 @@ namespace LibraryTerminal
             {
                 Console.WriteLine("Search produces too many results please be more specific.");
             }
-            else if(relevantBooks.Count() == 1)
+            else if(relevantBooks.Count() == 1 )
             {
                 Book b1 = relevantBooks[0];
                 if(!b1.IsCheckedOut)
@@ -278,6 +301,9 @@ namespace LibraryTerminal
             else Console.WriteLine("Search produced no results.");
         }
 
+        /// <summary>
+        /// Adds a book to the list
+        /// </summary>
         public void AddBook()
         {
             Console.WriteLine("Enter book title: ");
@@ -291,6 +317,46 @@ namespace LibraryTerminal
 
             bookList.Add(newBook);
             SaveBookList();
+        }
+
+        /// <summary>
+        /// Removes a book from the list
+        /// </summary>
+        public void RemoveBook()
+        {
+            List<Book> relevantBooks = new List<Book>();           
+            Console.WriteLine("Enter book title: ");
+            string t = Console.ReadLine();
+            relevantBooks = bookList.Where(x => x.Title.Contains(t, StringComparison.OrdinalIgnoreCase)).ToList();
+            if(relevantBooks.Count() > 1)
+            {
+                Console.WriteLine("Search produces too many results please be more specific.");
+            }
+            else if(relevantBooks.Count == 1)
+            {
+                Book b1 = relevantBooks[0];
+                do
+                {
+                    Console.Clear();
+                    Console.WriteLine($"Are you sure you wish to remove {b1.Title}? (y/n):");
+                    ConsoleKey userInput = Console.ReadKey().Key;
+                    Console.WriteLine();
+                    if(userInput == ConsoleKey.Y) //confirm if they would like to remove
+                    {
+                        Console.WriteLine($"{b1.Title} removed.");
+                        bookList.Remove(b1);
+                        SaveBookList(); // save changes to file
+                        return;
+                    }
+                    else if(userInput == ConsoleKey.N)
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine("I'll put it back for you.");
+                        return;
+                    }
+                } while(true);
+            }
+            else Console.WriteLine("Search produced no results.");
         }
 
 
@@ -328,12 +394,13 @@ namespace LibraryTerminal
             Console.WriteLine("4. Check out a book");
             Console.WriteLine("5. Check in a book");
             Console.WriteLine("6. Add a book");
-            Console.WriteLine("7. Exit program \n");
+            Console.WriteLine("7. Remove a book");
+            Console.WriteLine("8. Exit program \n");
             Console.Write("Please enter your numbered choice from the selection above: ");
             string userInput = Console.ReadLine();
             int selection = 0;
 
-            if(int.TryParse(userInput, out selection) && selection > 0 && selection < 8)
+            if(int.TryParse(userInput, out selection) && selection > 0 && selection < 9)
             {
                 Console.Clear();
                 if(selection == 1)
@@ -375,6 +442,10 @@ namespace LibraryTerminal
                     AddBook();
                 }
                 else if(selection == 7)
+                {
+                    RemoveBook();
+                }
+                else if(selection == 8)
                 {
                     Console.WriteLine("Goodbye!");
                     Environment.Exit(0);

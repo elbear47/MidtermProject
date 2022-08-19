@@ -1,7 +1,6 @@
 ﻿using LibraryTerminal;
 
-BookList bookList = new();
-bookList.LoadBookList();
+BookList bookList = BookList.GetBookList();
 do
 {
     bookList.BookMenu();
