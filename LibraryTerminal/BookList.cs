@@ -65,8 +65,6 @@ namespace LibraryTerminal
             bookList.Clear();
             for (int i = 0; i < 15; i++)
             {
-                //var myPlayer = new System.Media.SoundPlayer();
-                //player.Play();
                 Console.BackgroundColor = ConsoleColor.DarkYellow;
                 Console.Clear();
                 Console.OutputEncoding = System.Text.Encoding.Unicode;
