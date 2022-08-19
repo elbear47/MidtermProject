@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using System.Media;
 
 namespace LibraryTerminal
 {
@@ -21,7 +20,7 @@ namespace LibraryTerminal
         }
 
         /// <summary>
-        /// Private Thing
+        /// Private constructor
         /// </summary>
         private BookList()
         {
@@ -86,9 +85,12 @@ namespace LibraryTerminal
                 Console.Clear();
             }
             Console.BackgroundColor = ConsoleColor.Black;
-            Console.ForegroundColor = ConsoleColor.White;
+            Console.ForegroundColor = ConsoleColor.White;         
             Console.Clear();
+            Console.WriteLine("Are you happy now?!?");
             SaveBookList();
+            Console.ReadKey();
+            Environment.Exit(0);
         }
 
         /// <summary>
@@ -114,7 +116,19 @@ namespace LibraryTerminal
             if(b.IsCheckedOut)
             {
                 Console.WriteLine(String.Format("Status: Book is checked out"));
-                Console.WriteLine(String.Format("{0,-5} {1}", "Due by:", b.DueDate));
+                Console.Write(String.Format("{0,-5}", "Due by: "));
+                DateTime dueDate = b.DueDate.ToDateTime(TimeOnly.FromDateTime(DateTime.Now));
+                int timeSpan = (dueDate - DateTime.Now).Days;
+                if(timeSpan < 0)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(b.DueDate);
+                    Console.ResetColor();
+                }
+                else
+                {
+                    Console.WriteLine(b.DueDate);
+                }
             }
             else
             {
@@ -131,7 +145,6 @@ namespace LibraryTerminal
         {
             string formattedAuthorName = author.ToLower();
 
-            //bookList.Where(x => x.Author.ToLower().Contains(formattedAuthorName)).ToList().ForEach(b => Console.WriteLine(b.Title));
             List<Book> bl = bookList.Where(x => x.Author.ToLower().Contains(formattedAuthorName)).ToList();
             if(bl.Count > 0)
             {
@@ -397,7 +410,7 @@ namespace LibraryTerminal
             Console.WriteLine("7. Remove a book");
             Console.WriteLine("8. Exit program \n");
             Console.Write("Please enter your numbered choice from the selection above: ");
-            string userInput = Console.ReadLine();
+            string userInput = Console.ReadLine().ToUpper().Trim();
             int selection = 0;
 
             if(int.TryParse(userInput, out selection) && selection > 0 && selection < 9)
