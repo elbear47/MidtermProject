@@ -386,7 +386,10 @@ namespace LibraryTerminal
             {
                 if(file.Directory.Parent == null)
                 {
-                    return null;
+                    Console.WriteLine($"The file {fileName} was not found.");
+                    Console.WriteLine("Press any key to continue.");
+                    Console.ReadKey();
+                    Environment.Exit(1);
                 }
                 DirectoryInfo parentDir = file.Directory.Parent;
                 file = new FileInfo(Path.Combine(parentDir.FullName, file.Name));
