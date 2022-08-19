@@ -339,6 +339,7 @@ namespace LibraryTerminal
         /// </summary>
         public void RemoveBook()
         {
+            PrintBookList();
             List<Book> relevantBooks = new List<Book>();           
             Console.WriteLine("Enter book title: ");
             string t = Console.ReadLine();
@@ -444,6 +445,7 @@ namespace LibraryTerminal
                     {
                         SearchBookByIndex();
                     }
+                    else Console.WriteLine("That is not a valid input");
                 }
                 else if(selection == 4)
                 {
