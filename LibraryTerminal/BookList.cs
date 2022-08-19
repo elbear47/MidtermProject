@@ -52,7 +52,7 @@ namespace LibraryTerminal
         private void SaveBookList()
         {
             List<string> outBookList = new();
-            bookList = bookList.OrderBy(x => x.Author).ToList();
+            bookList = bookList.OrderBy(x => x.Author).ThenBy(x => x.Title).ToList();
             foreach(Book book in bookList)
             {
                 outBookList.Add(item: $"{book.Title},{book.Author},{book.IsCheckedOut},{book.DueDate}");
@@ -84,8 +84,7 @@ namespace LibraryTerminal
                 Thread.Sleep(50);
                 Console.Clear();
             }
-            Console.BackgroundColor = ConsoleColor.Black;
-            Console.ForegroundColor = ConsoleColor.White;         
+            Console.ResetColor();        
             Console.Clear();
             Console.WriteLine("Are you happy now?!?");
             SaveBookList();
@@ -113,15 +112,18 @@ namespace LibraryTerminal
             Console.WriteLine("Index #: " + (bookList.IndexOf(b)+1));
             Console.WriteLine(String.Format("{0,-6} {1}", "Title:", b.Title));
             Console.WriteLine(String.Format("{0,-5} {1}", "Author:", b.Author));
+            Console.Write("Status: ");
             if(b.IsCheckedOut)
             {
-                Console.WriteLine(String.Format("Status: Book is checked out"));
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.WriteLine(String.Format("Book is checked out"));
+                Console.ResetColor();
                 Console.Write(String.Format("{0,-5}", "Due by: "));
                 DateTime dueDate = b.DueDate.ToDateTime(TimeOnly.FromDateTime(DateTime.Now));
                 int timeSpan = (dueDate - DateTime.Now).Days;
                 if(timeSpan < 0)
                 {
-                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
                     Console.WriteLine(b.DueDate);
                     Console.ResetColor();
                 }
@@ -132,7 +134,9 @@ namespace LibraryTerminal
             }
             else
             {
-                Console.WriteLine(String.Format("Status: Book is available"));
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine(String.Format("Book is available"));
+                Console.ResetColor();
             }
             Console.WriteLine();
         }

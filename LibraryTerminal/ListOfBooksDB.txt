@@ -9,6 +9,9 @@ The Iliad,Homer,False,10/3/2022
 Ulysses,James Joyce,True,10/10/2022
 Pride and Prejudice,Jane Austen,False,8/24/2022
 The Grapes of Wrath,John Steinbeck,False,8/31/2022
-Frankenstein,Mary Shelley,False,8/31/2022
-Les Miserables,Victor Hugo,False,8/31/2022
 How to Conquer Rome,Julius Caesar,True,8/8/2022
+Frankenstein,Mary Shelley,False,8/31/2022
+Twilight 1,Stephanie Meyer,False,8/18/2022
+Twilight 2,Stephanie Meyer,True,9/1/2022
+Twilight 3,Stephanie Meyer,True,9/1/2022
+Les Miserables,Victor Hugo,False,8/31/2022
